@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
+import os
+import uvicorn
 
 app = FastAPI(title="Mpepo Kitchen API")
 
@@ -26,32 +28,9 @@ class Product(BaseModel):
 
 # Temporary mock data
 mock_products = [
-    Product(
-        id=1,
-        name="Chicken Burger",
-        description="Juicy grilled chicken burger with fresh veggies",
-        price=12.99,
-        image_url="",
-        category="Burgers",
-        is_available=True
-    ),
-    Product(
-        id=2,
-        name="Vegetable Pizza",
-        description="Fresh vegetable pizza with mozzarella cheese",
-        price=15.99,
-        image_url="",
-        category="Pizza",
-        is_available=True
-    ),
-    Product(
-        id=3,
-        name="French Fries",
-        description="Crispy golden fries with seasoning",
-        price=5.99,
-        category="Sides",
-        is_available=True
-    )
+    Product(id=1, name="Chicken Burger", description="Juicy grilled chicken burger with fresh veggies", price=12.99, category="Burgers"),
+    Product(id=2, name="Vegetable Pizza", description="Fresh vegetable pizza with mozzarella cheese", price=15.99, category="Pizza"),
+    Product(id=3, name="French Fries", description="Crispy golden fries with seasoning", price=5.99, category="Sides")
 ]
 
 @app.get("/")
@@ -68,3 +47,8 @@ async def get_product(product_id: int):
         if product.id == product_id:
             return product
     return {"error": "Product not found"}
+
+# --- Run with Railway port ---
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

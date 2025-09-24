@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/product.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://10.200.192.81:8000';
+  static const String baseUrl = 'https://smartposmpepokitchen-production.up.railway.app';
   static const int timeoutSeconds = 10;
 
   static Future<List<Product>> getProducts() async {
